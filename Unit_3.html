@@ -1,0 +1,2806 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Unit 3 : LLMs and Data visualization</title>
+
+<script src="Unit_3_files/header-attrs-2.29/header-attrs.js"></script>
+<script src="Unit_3_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Unit_3_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="Unit_3_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Unit_3_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Unit_3_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="Unit_3_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="Unit_3_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="Unit_3_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="Unit_3_files/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Unit 3 : LLMs and Data visualization</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Welcome back to POLI LIT! In <strong>Unit 2</strong>, you set up your
+R environment, learned the basics of writing and running code, and built
+your first data visualizations using <code>ggplot2</code>. In
+<strong>Unit 3</strong>, we go a step further — both in how we <em>think
+about</em> visualizations and in the <em>tools</em> we have available to
+help us make them.</p>
+<p>This unit is organized around three interconnected themes:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Generative AI as a Learning Tool</strong><br />
+Before diving into more plots, we take a step back and explore what AI
+tools actually are — from the broad concept of Artificial Intelligence
+down to Large Language Models (LLMs) like ChatGPT. More importantly, we
+discuss how to use these tools <em>responsibly and effectively</em> when
+learning to code. You’ll learn the difference between using AI as a
+learning partner versus relying on it as a shortcut, and why that
+distinction matters.</p></li>
+<li><p><strong>Storytelling with Visuals</strong><br />
+A well-crafted chart is more than just a correct one — it tells a story.
+In this section, you’ll learn what separates effective visualizations
+from confusing ones, including common mistakes (like a poorly designed
+pie chart), principles of clear visual communication, and a practical
+formula for turning data into a meaningful takeaway.</p></li>
+<li><p><strong>Types of Plots and When to Use Them</strong><br />
+We survey the most common chart types you’ll encounter — pie charts, bar
+charts, scatter plots, line plots, and histograms — and walk through
+worked <code>ggplot2</code> examples for each. Understanding
+<em>which</em> plot fits <em>which</em> type of data and research
+question is one of the most important skills in data analysis.</p></li>
+</ol>
+<p>By the end of this unit, you will be equipped to choose the right
+visualization for your data, interpret charts critically, and use AI
+tools thoughtfully to support — not replace — your own coding and
+analytical thinking.</p>
+<p><strong>What to Submit for Full Credit</strong></p>
+<p>To receive full credit for Unit 3, make sure you submit the
+following:</p>
+<ul>
+<li><em>Final Practice Plot + short written description</em><br />
+</li>
+<li><em>Unit 3 Feedback Form</em></li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 💡 <em>As you work through the
+visualization examples, try modifying the code — change a color, swap a
+theme, or filter a different country. Experimenting hands-on is one of
+the fastest ways to build confidence in R.</em></span></p>
+</blockquote>
+<hr>
+</div>
+<div id="gen-ai-for-learning" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Gen AI for
+Learning</h1>
+<p>Before we dive into more hands-on coding, let’s take a moment to talk
+about <strong>AI tools</strong> and how they can support your learning —
+especially when it comes time to work on your <strong>final practice
+plot</strong>.</p>
+<p>In this section, we’ll explore how <strong>Generative Artificial
+Intelligence (GenAI)</strong> can help you:</p>
+<ul>
+<li>Learn new concepts</li>
+<li>Write and debug code</li>
+<li>Tackle tasks more efficiently</li>
+</ul>
+<p>We’ll also cover some <strong>best practices</strong> and
+<strong>important limitations</strong> — because using AI responsibly
+means understanding both what it can do and what it can’t.</p>
+<p>Also, keep in mind: <strong>AI tools evolve rapidly</strong>. As the
+technology develops, new methods and improvements will continue to
+appear.However, the core ideas you learn here — about how AI works and
+what its limitations are — will help you stay informed and make
+responsible choices as you use these tools in your academic and coding
+work.</p>
+<blockquote>
+<p><span style="font-size: 10pt">💡 Don’t worry — we’ll keep this
+section simple and jargon-free. The goal is to help you think critically
+about AI tools and how to use them effectively.</p>
+</blockquote>
+<hr>
+<div id="what-is-ai-generative-ai-and-llm" class="section level2"
+number="2.1">
+<h2><span class="header-section-number">2.1</span> What Is AI,
+Generative AI, and LLM?</h2>
+<p>Before we start using AI tools, let’s first understand what we
+actually mean by <em>“Artificial Intelligence.”</em></p>
+<p>The term covers many ideas, from a simple phone assistant to tools
+like ChatGPT that can write essays or code. Think of this section as
+building blocks — each concept adds another layer of understanding.</p>
+<div id="artificial-intelligence-ai" class="section level3"
+number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Artificial
+Intelligence (AI)</h3>
+<p><strong>Artificial Intelligence (AI)</strong> means using computers
+to do tasks that normally require human thinking.<br />
+For example:</p>
+<ul>
+<li>When Netflix recommends a movie you might like.<br />
+</li>
+<li>When your phone unlocks after recognizing your face.<br />
+</li>
+<li>When Google Maps finds the fastest route to school.</li>
+</ul>
+<p>In all these examples, the computer is using data — what it has seen
+before — to make a smart choice.</p>
+<p>AI is the <strong>broadest term</strong> that covers all kinds of
+“smart” technologies we use daily.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> ✏️ <strong>Simple definition:</strong>
+AI is when computers are designed to mimic human thinking — by learning
+from data or experience and then using that to make decisions,
+predictions, or even generate new content.</p>
+</blockquote>
+<p><img src="Unit3_2.1_AI.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><span style="font-size: 10pt"> This diagram shows how different types
+of AI fit inside each other.</p>
+<p><strong>Source:</strong> Stöffelbauer (2023), <em>How Large Language
+Models Work.</em> </span></p>
+</div>
+<div id="machine-learning-ml" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Machine Learning
+(ML)</h3>
+<p>Inside the big world of AI, there is a smaller part called
+<strong>Machine Learning</strong>. Machine Learning means teaching
+computers to find patterns and improve with experience — just like how
+people learn from practice.</p>
+<p>Example:</p>
+<ul>
+<li>A spam filter in your email learns which messages are spam after
+looking at thousands of examples.<br />
+</li>
+<li>A music app learns what songs you like and recommends similar
+ones.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> ✏️️ <strong>Simple definition:</strong>
+Machine Learning helps computers learn automatically from data, without
+being told every single rule.</p>
+</blockquote>
+</div>
+<div id="deep-learning-dl" class="section level3" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Deep Learning
+(DL)</h3>
+<p><strong>Deep Learning</strong> is a special kind of machine learning
+that uses something called <em>neural networks</em> — an innovative way
+of organizing the computer’s learning process (Yep, they are called
+“neural” because they mimic how neurons in our brain signal one another
+!).</p>
+<p>A <em>deep learning algorithm</em> is a type of neural network that
+has more than three layers — including input, hidden, and output layers.
+This idea is shown in the diagram below:</p>
+<p><img src="Unit3_2.1_deep.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><span style="font-size: 10pt"> <strong>Source:</strong> IBM Data and
+AI Team (2024), <em>AI vs. machine learning vs. deep learning vs. neural
+networks.</em> </span></p>
+<p>The “deep” in deep learning refers to the depth of layers in a neural
+network. This helps it recognize complex patterns like faces, voices, or
+handwriting.</p>
+<p>Example:</p>
+<ul>
+<li>Your phone’s camera can recognize your pet in pictures.<br />
+</li>
+<li>Speech-to-text programs like Siri or Alexa understand spoken
+words.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> ✏️ <strong>Simple definition:</strong>
+Deep Learning is a more advanced type of machine learning that helps
+computers recognize very complex patterns — like images or voices.</p>
+</blockquote>
+</div>
+<div id="generative-ai-genai" class="section level3" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Generative AI
+(GenAI)</h3>
+<p>Now comes <strong>Generative AI</strong>, the kind that can
+<em>create</em> things.</p>
+<p>Instead of just identifying or predicting, this type of AI can
+generate <strong>new content</strong> — text, images, music, or code —
+based on what it has learned.</p>
+<p>Examples include:</p>
+<ul>
+<li><strong>ChatGPT:</strong> writes text or code.<br />
+</li>
+<li><strong>DALL·E:</strong> creates new images from text prompts.<br />
+</li>
+<li><strong>Google Gemini or Copilot:</strong> helps summarize, write,
+and brainstorm ideas.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> ✏️ <strong>Simple definition:</strong>
+Generative AI can create new things — like essays, pictures, or programs
+— by recognizing patterns in huge amounts of data.</p>
+</blockquote>
+<p><strong>Think of it like this:</strong><br />
+If you’ve read hundreds of stories, you could probably able to write one
+that <em>sounds similar</em> — even if it’s completely new. That’s what
+Generative AI does — it learns the style and structure, then creates
+something new from it.</p>
+</div>
+<div id="large-language-models-llms" class="section level3"
+number="2.1.5">
+<h3><span class="header-section-number">2.1.5</span> Large Language
+Models (LLMs)</h3>
+<p><strong>Large Language Models</strong> (LLMs) are a type of GenAI
+focused on text. These models are trained on an enormous amount of text
+— from books, websites, articles, and code — to learn how people use
+language.</p>
+<p>So take ChatGPT for example, “GPT” stands for Generative Pre-trained
+Transformer:</p>
+<ul>
+<li>Generative: It creates (generates) new text.</li>
+<li>Pre-trained: It was trained on a massive amount of text before you
+ever use it.</li>
+<li>Transformer: This is the specific kind of AI model it uses — great
+at understanding language.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> ✏️ <strong>Simple definition:</strong>
+LLMs are advanced programs that predict what to say next by recognizing
+language patterns from huge amounts of text.</p>
+</blockquote>
+<p>LLMs don’t <strong>think</strong> or <strong>understand</strong> like
+humans. They simply <strong>predict</strong> what word (or sentence)
+should come next, based on patterns they’ve seen before. LLMs are very
+good at sounding confident — but the models don’t “understand/know”
+things.</p>
+<p>Sometimes they can make up information that sounds right but isn’t
+(this is called “hallucination”). That’s why it’s important to
+<strong>double-check facts</strong> using reliable sources or walk
+through the <strong>logic</strong> yourself.</p>
+</div>
+<div id="how-these-concepts-fit-together" class="section level3"
+number="2.1.6">
+<h3><span class="header-section-number">2.1.6</span> How These Concepts
+Fit Together</h3>
+<p>Here’s a clear table to help you see how everything connects:</p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="23%" />
+<col width="21%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Concept</strong></th>
+<th align="left"><strong>What It Means</strong></th>
+<th align="left"><strong>Main Function</strong></th>
+<th align="left"><strong>Example in Action</strong></th>
+<th align="left"><strong>Analogy </strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Artificial Intelligence (AI)</strong></td>
+<td align="left">The overall idea of making computers act smart.</td>
+<td align="left">Performs tasks that usually need human thinking.</td>
+<td align="left">A self-driving car recognizing stop signs.</td>
+<td align="left">The “umbrella” term for all smart systems.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Machine Learning (ML)</strong></td>
+<td align="left">A way for computers to learn from data instead of being
+programmed by humans.</td>
+<td align="left">Learns and improves automatically from examples.</td>
+<td align="left">An email filter learning what counts as spam.</td>
+<td align="left">Like learning by doing — the more examples, the better
+it gets.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Deep Learning (DL)</strong></td>
+<td align="left">A type of ML that uses many layers of “neural networks”
+to recognize complex patterns.</td>
+<td align="left">Handles images, sound, and speech with high
+accuracy.</td>
+<td align="left">Siri understanding your voice commands.</td>
+<td align="left">Like the brain — many layers process information step
+by step.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Generative AI (GenAI)</strong></td>
+<td align="left">A type of AI that creates new content such as text,
+code, or images.</td>
+<td align="left">Produces new examples based on what it has
+learned.</td>
+<td align="left">DALL·E generates an image base on a prompt.</td>
+<td align="left">Like an art student who paints something new after
+studying many artworks.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Large Language Models (LLMs)</strong></td>
+<td align="left">The system behind tools like ChatGPT that generate and
+understand text.</td>
+<td align="left">Predicts what words or sentences should come next.</td>
+<td align="left">ChatGPT or Copilot writing code or essays.</td>
+<td align="left">Like an advanced autocomplete tool that has read the
+internet.</td>
+</tr>
+</tbody>
+</table>
+<div id="recommended-resources" class="section level4" number="2.1.6.1">
+<h4><span class="header-section-number">2.1.6.1</span> Recommended
+Resources</h4>
+<p>If you’d like to explore more about how AI and language models work,
+here are some short and easy-to-follow resources:</p>
+<ul>
+<li><p><a
+href="https://help.openai.com/en/articles/6783457-what-is-chatgpt"><strong>OpenAI’s
+“How ChatGPT Works” Overview</strong></a></p></li>
+<li><p><a
+href="https://medium.com/data-science-at-microsoft/how-large-language-models-work-91c362f5b78f"><strong>How
+Large Language Models Work (Microsoft Data Science
+Blog)</strong></a></p></li>
+<li><p><a
+href="https://youtu.be/qYNweeDHiyU?si=gCa9GosBi2TpsjLY"><strong>AI,
+Machine Learning, Deep Learning and Generative AI Explained (YouTube
+Video)</strong></a></p></li>
+</ul>
+<hr>
+</div>
+</div>
+</div>
+<div id="limitations-and-ethics-of-using-genai" class="section level2"
+number="2.2">
+<h2><span class="header-section-number">2.2</span> Limitations and
+Ethics of Using GenAI</h2>
+<p>As you begin using AI tools in your learning and daily work, it is
+important to think carefully about what AI can and cannot do.</p>
+<p>Generative AI is a powerful tool for writing, coding, and problem
+solving, but it is not a human brain. It does not truly
+<em>understand</em> language or meaning — it simply imitates what
+understanding looks like by recognizing patterns in data.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 <strong>Not a Human
+Brain</strong><br />
+AI systems mimic reasoning but <em>do not actually think, understand, or
+know the truth</em>. They produce text or code by predicting what is
+likely to come next based on what they have seen in their training
+data.<br />
+AI can sound intelligent because its responses are often fluent and
+well-structured, but this fluency does not mean understanding. Unlike
+people, AI <em>does not experience the world, form opinions, or evaluate
+meaning — it only predicts</em>.</p>
+</blockquote>
+<div id="limitations-of-ai" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Limitations of
+AI</h3>
+<p>Even though Generative AI can produce impressive results, it has
+clear limits that students must keep in mind:</p>
+<ul>
+<li><p><strong>Can generate wrong or made-up information
+(“hallucinations”).</strong><br />
+Sometimes AI invents facts, names, or citations that sound believable
+but are not real.</p></li>
+<li><p><strong>Lacks real-world context unless you provide
+it.</strong><br />
+It only knows what is written in your prompt; it cannot “guess” what you
+mean.</p></li>
+<li><p><strong>Can repeat social or data biases.</strong><br />
+Because AI learns from human data, it may repeat stereotypes or biased
+language found in its training material.</p></li>
+<li><p><strong>Does not reason or understand ideas.</strong><br />
+It imitates the structure of language, but it cannot truly analyze
+meaning or intent.</p></li>
+</ul>
+<p>In short, AI is a tool for generating patterns — not a system that
+understands truth or logic. You should always be the one interpreting,
+questioning, and verifying what it produces.</p>
+</div>
+<div id="ethical-use-of-ai-in-learning" class="section level3"
+number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Ethical Use of AI
+in Learning</h3>
+<p>When using AI in academic or professional settings, ethical use means
+using it to <strong>support your own thinking, not to replace
+it.</strong></p>
+<p>Here are some basic guidelines for responsible use:</p>
+<ul>
+<li><p><strong>Always fact-check AI-generated answers.</strong><br />
+Verify statistics, quotes, and claims using trusted academic or official
+sources.</p></li>
+<li><p><strong>Never submit AI output as your own work.</strong><br />
+Passing off AI-generated writing as personal writing is a form of
+plagiarism.</p></li>
+<li><p><strong>Use AI for learning, not shortcutting.</strong><br />
+Ask it to <em>explain</em>, <em>summarize</em>, or <em>suggest</em>, but
+make sure you still think critically about the result.</p></li>
+<li><p><strong>Remember:</strong> AI does not “know” — it
+predicts.<br />
+You are responsible for the accuracy, originality, and integrity of any
+work that includes AI assistance.</p></li>
+</ul>
+<p>Using AI responsibly means developing judgment — understanding when
+it helps you think and when it might mislead you.</p>
+</div>
+<div id="why-can-ai-generate-things-so-well-even-without-thinking"
+class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Why Can AI Generate
+Things So Well (Even Without Thinking)?</h3>
+<p>You might wonder how AI can produce such fluent text or realistic
+answers even though it does not think. The reason lies in how these
+systems are trained.</p>
+<ul>
+<li><p>AI systems like Large Language Models (LLMs) are trained on
+<strong>massive amounts of text and data</strong> from books, websites,
+and code. They learn <strong>probabilities</strong>; given a prompt,
+they predict which words or phrases are most likely to come next based
+on patterns in the training data. Because of their size and exposure to
+so much language, they can <strong>mimic human-like writing or
+reasoning</strong> very convincingly.</p></li>
+<li><p>However, they do <strong>not understand meaning</strong> or
+reasoning in the way humans do. They have <strong>no goals, beliefs, or
+consciousness</strong>; they simply select the next most likely token
+(word or symbol). This is why their answers can appear smart and fluent,
+yet sometimes are <strong>inaccurate, inconsistent, or shallow</strong>
+in reasoning.</p></li>
+</ul>
+<p>AI tools can sound like they understand things because they’re very
+good at predicting what comes next in language or code, but they are not
+thinking beings. They imitate patterns, rather than reasoning like
+us.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> <em>LLMs are like a 12-year-old who
+has read every classic novel, wiki entry, and Reddit thread — in every
+language, ever exist — and is trying to sound smart like an adult. But
+they don’t actually understand what any of it means…. Now imagine that
+12-year-old is a robot who doesn’t feel and experience the world like we
+do…</em> — Chen (2025), Attempt to teach LLMs in POLI 105</p>
+</blockquote>
+<div id="recommended-resources-1" class="section level4"
+number="2.2.3.1">
+<h4><span class="header-section-number">2.2.3.1</span> Recommended
+Resources</h4>
+<p>For more discussion about what AI can and cannot do, and what ethical
+use means in modern education and research, see:</p>
+<ul>
+<li><p><a
+href="https://harvardonline.harvard.edu/blog/benefits-limitations-generative-ai"><strong>The
+Benefits and Limitations of Generative AI: Harvard Experts Answer Your
+Questions</strong></a><br />
+Explains the advantages and limitations of AI in everyday and
+professional contexts.</p></li>
+<li><p><a
+href="https://www.microsoft.com/en-us/research/blog/the-limits-of-ai-generative-ai-nlp-agi-and-whats-next/"><strong>The
+Limits of AI: Generative AI, NLP, AGI, and What’s
+Next?</strong></a><br />
+Discusses what current AI can realistically achieve, and how it differs
+from human-level intelligence.</p></li>
+</ul>
+<hr>
+</div>
+</div>
+</div>
+<div id="vibe-coding" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> “Vibe Coding”</h2>
+<p>Recently, a new term has been making the rounds in tech and
+programming circles: <strong>vibe coding.</strong> This idea is exciting
+and has caught public attention because it seems to promise a future
+where we can “skip” learning to code and just tell the computer what to
+do.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 Vibe Coding<br />
+It describes an <strong>AI-assisted coding style</strong> where someone
+explains what they want in natural (plain) language, and the AI
+generates most of the code. Instead of typing every line manually, you
+might guide the AI, test what it creates, and refine the result until it
+works.</p>
+</blockquote>
+<p>For example, someone might say: “Make a dashboard that shows
+unemployment trends,” and the AI would generate code automatically. But
+while this sounds exciting, it is also important to understand what it
+does—and why <strong>starting with “vibe coding” is not the best way to
+learn</strong> programming.</p>
+<p>We strongly <strong>discourage</strong> jumping straight into vibe
+coding without first learning the <strong>fundamentals</strong> of how a
+programming language works — just like most data scientists,
+researchers, and teachers do.</p>
+<p>Gen AI can certainly help you learn a language step by step, but the
+most effective approach is to use it <strong>as a learning
+partner</strong>, not as a replacement for learning.</p>
+<p>To learn more about the trend, see:</p>
+<ul>
+<li><a
+href="https://www.cnn.com/2025/11/06/tech/vibe-coding-collins-word-year-scli-intl">Vibe
+Coding: Collins Dictionary’s Word of the Year 2025 (CNN)</a><br />
+</li>
+<li><a href="https://www.ibm.com/think/topics/vibe-coding">What Is Vibe
+Coding (IBM)</a></li>
+</ul>
+<div id="why-you-should-still-learn-to-code" class="section level3"
+number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Why You Should
+Still Learn to Code</h3>
+<p>Even though AI can write or explain code, learning to code yourself
+is essential. Understanding the basics of syntax, logic, and data flow
+gives you control over what the AI generates and helps you think
+critically about how code works.</p>
+<ul>
+<li><p><strong>Understand what AI produces.</strong><br />
+Knowing the language helps you evaluate AI-generated code and recognize
+errors or inefficient solutions.</p></li>
+<li><p><strong>Avoid “copy–paste AI” work.</strong><br />
+Without a foundation in coding, you risk relying entirely on
+AI-generated scripts that you cannot explain or maintain.</p></li>
+<li><p><strong>Build real problem-solving skills.</strong><br />
+Coding teaches you structured thinking and debugging—skills that AI can
+support, but not replace.</p></li>
+</ul>
+<div id="why-explore-vibe-coding-and-when" class="section level4"
+number="2.3.1.1">
+<h4><span class="header-section-number">2.3.1.1</span> Why Explore Vibe
+Coding? And When?</h4>
+<p>Once you have some coding experience, exploring AI-assisted coding
+can be valuable.<br />
+It can make your workflow faster and more creative when used
+properly.</p>
+<ul>
+<li><p><strong>Speed and prototyping.</strong><br />
+AI can help generate starting points quickly, allowing you to test ideas
+and adjust your code faster.</p></li>
+<li><p><strong>Accessibility.</strong><br />
+Even beginners can create simple projects by describing them in plain
+language.</p></li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 💡 Learning to code gives you the
+foundation to use AI effectively and responsibly. Instead of depending
+on AI, you’ll learn to <strong>collaborate</strong> with it. The key is
+<strong>balance</strong>: learn the basics first, then use AI tools to
+expand what you can do more efficiently.</p>
+</blockquote>
+<p>Additional resources:</p>
+<ul>
+<li><a href="https://www.ibm.com/think/topics/vibe-coding">What Is Vibe
+Coding (IBM)</a><br />
+</li>
+<li><a
+href="https://medium.com/data-science-in-your-pocket/dont-be-a-vibe-coder-30fa7c525971">Don’t
+Be a Vibe Coder(Medium)</a></li>
+</ul>
+<hr>
+</div>
+</div>
+</div>
+<div id="genai-assisted-coding-using-genai-as-a-learning-tool"
+class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> GenAI-Assisted
+Coding: Using GenAI as a Learning Tool</h2>
+<p>Although we do not recommend starting with vibe coding as a beginner,
+<strong>Generative AI can be a low-cost, customizable, and interactive
+way to learn programming</strong>. You can use AI to ask questions, fix
+errors, or clarify coding concepts—especially when you are working in R
+for this course.</p>
+<p>The goal is to use GenAI <strong>to understand code</strong>, not to
+replace the process of writing it.</p>
+<div id="how-genai-coding-assistants-work" class="section level3"
+number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> How GenAI Coding
+Assistants Work</h3>
+<ul>
+<li>GenAI coding tools are powered by <strong>large language models
+(LLMs)</strong> trained on millions of lines of code and text.<br />
+</li>
+<li>They can generate, complete, or explain code snippets based on your
+instructions.<br />
+</li>
+<li>They do not understand code like humans do; instead, they predict
+what code “should” follow from your input.</li>
+</ul>
+<p>These tools are best used as interactive tutors—helping you learn
+what the code means and how to fix it.</p>
+</div>
+<div id="how-to-use-genai-effectively-when-learning-to-code"
+class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> How to Use GenAI
+Effectively When Learning to Code</h3>
+<p>Here are some effective strategies for using GenAI in your coding
+practice:</p>
+<ul>
+<li><p><strong>Ask “why,” not just “how.”</strong><br />
+Instead of asking “Give me R code to make a plot,” try:<br />
+<em>“Explain what each line in this R code does.”</em></p></li>
+<li><p><strong>Debug smarter.</strong><br />
+If you get an error, copy the message into GenAI and ask:<br />
+<em>“What does this error mean in R?”</em> or <em>“How can I fix it
+while keeping my code simple?”</em></p></li>
+<li><p><strong>Translate coding concepts.</strong><br />
+Ask AI to summarize what a function like <code>geom_bar()</code> or
+<code>filter()</code> does—in plain English.</p></li>
+<li><p><strong>Learn by comparison.</strong><br />
+Try: <em>“Can you show me another way to write this R code?”</em><br />
+This helps you see that there are often several valid approaches to a
+problem.</p></li>
+</ul>
+</div>
+<div id="cautions" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> ⚠️ Cautions</h3>
+<ul>
+<li>Do not ask GenAI to write an entire script for you. Use it to
+<strong>explain, clarify, or debug</strong> code you already
+wrote.<br />
+</li>
+<li>Always <strong>review and test</strong> AI’s suggestions; even
+correct-looking code can be wrong or inefficient.<br />
+</li>
+<li>Use GenAI as a <strong>learning partner</strong>, not a shortcut.
+Focus on understanding <em>why</em> something works — not just
+repeatedly prompting to “make it work for me.”</li>
+</ul>
+</div>
+<div id="prompts-suggestion" class="section level3" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Prompts
+Suggestion</h3>
+<p>You can experiment with GenAI assistants using prompts like
+these:</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="79%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Goal</strong></th>
+<th align="left"><strong>Example Prompt</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Understand code</td>
+<td align="left">Explain what each line of this <code>ggplot2</code>
+code does and why <code>geom_point()</code> is used.</td>
+</tr>
+<tr class="even">
+<td align="left">Debug</td>
+<td align="left">I got the error <code>unused argument (size = 3)</code>
+when using <code>geom_point()</code>. What does it mean, and how can I
+fix it?</td>
+</tr>
+<tr class="odd">
+<td align="left">Clarify options</td>
+<td align="left">What’s the difference between <code>geom_bar()</code>
+and <code>geom_col()</code> in <code>ggplot2</code>?</td>
+</tr>
+<tr class="even">
+<td align="left">Ask for explanation</td>
+<td align="left">How does <code>theme_minimal()</code> change the
+appearance of a plot compared to <code>theme_bw()</code>?</td>
+</tr>
+</tbody>
+</table>
+<div id="recommended-resources-2" class="section level4"
+number="2.4.4.1">
+<h4><span class="header-section-number">2.4.4.1</span> Recommended
+Resources</h4>
+<ul>
+<li><a
+href="https://www.r-bloggers.com/2023/04/tips-for-using-chatgpt-to-learn-r/"><strong>Tips
+for Using ChatGPT to Learn R</strong> (R-Bloggers)</a><br />
+</li>
+<li><a
+href="https://code.likeagirl.io/use-chatgpt-to-become-an-r-programming-wiz-131db9e2479a"><strong>Use
+ChatGPT to Become an R Programming Wiz</strong> (Code Like a
+Girl)</a></li>
+</ul>
+</div>
+</div>
+<div id="whats-next-using-genai-for-support" class="section level3"
+number="2.4.5">
+<h3><span class="header-section-number">2.4.5</span> What’s Next: Using
+GenAI for Support</h3>
+<p>In the next section, we’ll walk through different types of
+visualizations you can make in R — and when to use them. Each plot type
+comes with a <strong>template R code</strong> you can try. Feel free to
+<strong>modify the code</strong>, test different settings, and use AI
+tools to help you understand what’s going on.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> 💡 Try asking AI: “What does this line
+do?” or “How can I change the color or labels in this plot?”</p>
+</blockquote>
+<p>In the final section, you’ll create your own plot using the
+<code>POLI_LIT_v1</code> dataset.</p>
+<p>You get to decide <strong>what type of visualization to make</strong>
+and <strong>what story it tells</strong> — for example:</p>
+<ul>
+<li>Comparing countries or regions<br />
+</li>
+<li>Exploring changes over time<br />
+</li>
+<li>Showing relationships between variables</li>
+</ul>
+<p>You are encouraged to use an GenAI assistant (such as LLMs like
+ChatGPT) to help you:</p>
+<ul>
+<li>Understand what each line of code does<br />
+</li>
+<li>Fix errors or formatting issues<br />
+</li>
+<li>Try different options or styles</li>
+</ul>
+<p>But <strong>do not rely on AI to generate the entire plot for
+you</strong> — this is your chance to practice and build your own
+skills.</p>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 After finishing, ask
+yourself:<br />
+<em>If I had to make this visualization again without AI, could I do it
+on my own?</em></p>
+</blockquote>
+<hr>
+</div>
+</div>
+<div id="knowledge-check" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Knowledge Check</h2>
+<div id="practice-quiz" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Practice Quiz</h3>
+<!-- KNOWLEDGE CHECK BLOCK -->
+<style>
+.quiz-question {
+  margin-bottom: 1rem;
+  padding: .75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+.quiz-option {
+  display: block;
+  margin: .25rem 0;
+  padding: .3rem .5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+.quiz-option:hover { background-color: #9A2A2A; color: white; }
+.correct { background-color: #d4edda; border-color: #28a745; }
+.incorrect { background-color: #f8d7da; border-color: #dc3545; }
+.feedback { display: none; margin-top: .5rem; font-weight: bold; }
+</style>
+
+<!-- UNIT 2.4 -->
+<div class="quiz-question" data-answer="b">
+  <p><strong>1. AI always understands what it says and reasons like a human.</strong></p>
+  <div class="quiz-option" data-choice="a">a) True</div>
+  <div class="quiz-option" data-choice="b">b) False</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="a">
+  <p><strong>2. Large Language Models (LLMs) generate text by selecting what word is most likely to come next.</strong></p>
+  <div class="quiz-option" data-choice="a">a) True</div>
+  <div class="quiz-option" data-choice="b">b) False</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="a">
+  <p><strong>3. Which of the following is a key limitation of LLMs like ChatGPT?</strong></p>
+  <div class="quiz-option" data-choice="a">a) They hallucinate or make up confident but false answers</div>
+  <div class="quiz-option" data-choice="b">b) They only work with spoken language</div>
+  <div class="quiz-option" data-choice="c">c) They cannot summarize text</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="c">
+  <p><strong>4. Why should beginners not rely on “vibe coding” alone?</strong></p>
+  <div class="quiz-option" data-choice="a">a) It’s too slow for real projects</div>
+  <div class="quiz-option" data-choice="b">b) It requires advanced math</div>
+  <div class="quiz-option" data-choice="c">c) It discourages learning core coding logic</div>
+  <div class="feedback"></div>
+</div>
+
+
+    
+<script>
+    (function(){
+      document.querySelectorAll('.quiz-question').forEach(function(question){
+        const correct = question.getAttribute('data-answer');
+        const feedback = question.querySelector('.feedback');
+        question.querySelectorAll('.quiz-option').forEach(function(opt){
+          opt.addEventListener('click', function(){
+            // Reset previous choices
+            question.querySelectorAll('.quiz-option').forEach(o=>{
+              o.classList.remove('correct','incorrect');
+            });
+            // Check if correct
+            if (opt.getAttribute('data-choice') === correct) {
+              opt.classList.add('correct');
+              feedback.textContent = "✅ Correct!";
+            } else {
+              opt.classList.add('incorrect');
+              feedback.textContent = "❌ Try again.";
+            }
+            feedback.style.display = 'block';
+          });
+        });
+      });
+    })();
+</script>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div id="storytelling-with-visuals" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Storytelling with
+Visuals</h1>
+<p>Now that you’ve learned how to make your first plot, let’s talk about
+how to make visuals <strong>tell a story</strong>.</p>
+<p>Charts and graphs aren’t just decorations — they’re tools to help us
+explain what our data means. A strong visualization can turn complex
+numbers into something meaningful. It can help us understand real-world
+political questions, such as:</p>
+<ul>
+<li>How democracy changes over time<br />
+</li>
+<li>Why some countries are wealthier than others<br />
+</li>
+<li>How elections affect trust in government</li>
+</ul>
+<p>In this section, we’ll focus on two key ideas:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>What makes a good visualization?</strong><br />
+Tips and best practices for creating clear, effective visuals.</p></li>
+<li><p><strong>Types of common plots</strong><br />
+What kinds of plots exist, when to use each one, and how to build them
+in R.</p></li>
+</ol>
+<div id="why-storytelling-matters" class="section level3"
+number="3.0.1">
+<h3><span class="header-section-number">3.0.1</span> Why Storytelling
+Matters</h3>
+<p>When we see a chart, our eyes naturally search for <em>patterns</em>
+— like differences between groups, upward or downward trends, or
+surprising spikes.</p>
+<p>But here’s the thing: your audience might not see what you see.
+That’s why your job as the creator is to <strong>guide their
+attention</strong> toward the key message or insight.</p>
+<p>Try Asking :</p>
+<ul>
+<li><em>What is the most important message I want the viewer to see
+first?</em></li>
+<li><em>What question is this plot helping to answer?</em> or <em>What
+information is this plot trying to convey?</em></li>
+</ul>
+<p>If you make a plot and can answer these questions clearly, you’re
+already well on your way to telling a compelling story with your
+data!</p>
+<hr>
+</div>
+<div id="good-visualization" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Good
+Visualization</h2>
+<p>Below is a pie chart made with our <code>POLI_LIT_v1</code> dataset.
+It shows the <strong>number of intergovernmental organizations
+(IGOs)</strong> in Middle Eastern countries in 2014.</p>
+<p>Is this a good visualization? What do you think it’s trying to
+communicate? Take a moment to examine the chart below.</p>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>You probably notice, <strong>this is an example of a poor
+visualization.</strong><br />
+We’ll go over why it doesn’t work well and how it could be improved
+soon!</p>
+<hr>
+<div id="communicate-clearly-with-simple-effective-visuals"
+class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Communicate Clearly
+with Simple, Effective Visuals</h3>
+<p>A good visualization should make your message <strong>easy to
+understand — even for someone seeing it for the first
+time.</strong><br />
+Your goal isn’t to show off R skills, but to help others quickly grasp
+what the data means.</p>
+<p>Here are some simple but powerful tips:</p>
+<ul>
+<li><strong>Use clear titles and subtitles</strong>. Tell your reader
+what to look for.
+<ul>
+<li>Instead of “GDP vs. Democracy,” try:</li>
+<li>“Countries with higher GDP per capita tend to have higher democracy
+scores.”</li>
+</ul></li>
+<li><strong>Include context and captions</strong>. Add a short note
+under your plot that tells the reader:
+<ul>
+<li>What the data shows (e.g., a trend, comparison, or
+relationship)</li>
+<li>The source (e.g., V-Dem v15, World Bank)</li>
+<li>The time period (e.g., “1990–2022”)</li>
+<li>Any special notes (e.g., “Small island states excluded due to
+missing data”)</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 Example caption:<br />
+<em>Source: World Bank (2024). GDP per capita, constant 2015 USD,
+1990–2022. Scale begins at zero.</em></p>
+</blockquote>
+<ul>
+<li><strong>Keep it simple and readable</strong>.
+<ul>
+<li>Avoid 3-D effects, overly bright colors, or extra gridlines.</li>
+<li>Use clear fonts and good color contrast (e.g., blue
+vs. orange).</li>
+<li>Always label axes and include units (e.g., “GDP per capita (USD,
+thousands)”).</li>
+<li>Start numeric axes at zero unless you have a good reason not to —
+otherwise, small differences might look exaggerated.</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt">💡 A great plot is one that people can
+understand in under a minute — even without extra explanation. Think of
+yourself as a <strong>storyteller</strong>. Your data is the evidence,
+and your chart is how you communicate that evidence clearly and credibly
+to others.</p>
+</blockquote>
+<p>Here’s a simple formula to keep in mind:</p>
+<blockquote>
+<p><span style="font-size: 10pt"> <strong>Question → Data → Chart →
+Takeaway</strong></p>
+</blockquote>
+<p>A good chart/plot can be summarize into one clear takeaway sentence,
+such as:</p>
+<ul>
+<li>Countries with higher democracy scores tend to have greater gender
+equality.</li>
+<li>From 2000 to 2020, voter turnout declined in nearly every
+region.</li>
+<li>Despite similar income levels, Country A and Country B have very
+different levels of press freedom.</li>
+</ul>
+<hr>
+<hr>
+</div>
+</div>
+<div id="when-a-chart-doesnt-work-well" class="section level2"
+number="3.2">
+<h2><span class="header-section-number">3.2</span> When a Chart Doesn’t
+Work Well</h2>
+<p>Now let’s revisit the pie chart example and reflect <strong>Why This
+Is Not a Good Visualization.</strong> Even though this chart runs
+without any coding errors, it’s not very helpful for understanding the
+data. Let’s think about why it fails to tell a clear story.</p>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<ul>
+<li><p><strong>The chart doesn’t match the data type.</strong><br />
+The variable <code>IGO_count</code> represents the <em>number of
+intergovernmental organizations</em> that each country belongs to.
+Turning that count into a percentage of a circle doesn’t make sense —
+the values are <strong>not parts of one whole</strong>, but
+<strong>separate totals</strong> for each country.</p></li>
+<li><p><strong>Too many categories.</strong><br />
+A pie chart works best when there are fewer than <strong>five or six
+categories</strong>. Here, we have many countries, so each slice becomes
+tiny and hard to read. The viewer can’t easily tell which country has
+more or fewer IGOs.</p></li>
+<li><p><strong>Color and shape overwhelm rather than
+help.</strong><br />
+The color legend is long and visually overwhelming.</p></li>
+<li><p><strong>No clear takeaway.</strong><br />
+What do we actually learn from this chart? It doesn’t show a trend, a
+comparison, or a relationship — just a collection of similar-looking
+slices.</p></li>
+</ul>
+<div id="lesson-from-bad-visualization" class="section level3"
+number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Lesson from Bad
+Visualization</h3>
+<p>Not every type of data fits every kind of plot.<br />
+When choosing a visualization, we should always match it to:</p>
+<ol style="list-style-type: decimal">
+<li>The <strong>type of data</strong> — whether it’s categorical,
+numerical, or time-based, and<br />
+</li>
+<li>The <strong>purpose</strong> — what we want to show, compare, or
+explain.</li>
+</ol>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 Reflection:<br />
+Suppose you want to show the <strong>population percentage</strong> of
+each country in Europe.</p>
+<p><span style="font-size: 10pt"> Would a <strong>scatterplot</strong>
+be useful here? Probably not. Scatterplots are best when we have two
+continuous (numeric) variables — for example, <em>GDP per capita</em> on
+the x-axis and <em>Democracy Score</em> on the y-axis. Each point
+represents a pair of values for one observation. These plots are useful
+for showing <em>relationships</em> or <em>correlations</em>, not
+proportions or categories.</p>
+<p><span style="font-size: 10pt"> What about a <strong>pie
+chart</strong>?<br />
+A pie chart <em>can</em> work, but only if you have <strong>a few
+categories</strong> (e.g., 5–6 countries). If you try to include all the
+countries in Europe, the pie will be filled with so many tiny slices
+that it’s impossible to read.</p>
+<p><span style="font-size: 10pt"> When you have many categories, it’s
+usually better to use a <strong>bar chart</strong>, because bars make it
+easier to compare values side by side.</p>
+</blockquote>
+<hr>
+</div>
+</div>
+<div id="exploring-different-types-of-visualization"
+class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Exploring Different
+Types of Visualization</h2>
+<p>In this section, we’ll explore several common types of visualizations
+and learn:</p>
+<ul>
+<li>What kind of data each one works best fo</li>
+<li>What research question or purpose it helps answer, and<br />
+</li>
+<li>How to read and understand the R code that creates it.</li>
+</ul>
+<div id="pie-chart-showing-proportions" class="section level3"
+number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Pie Chart — Showing
+Proportions</h3>
+<p>A <strong>pie chart</strong> shows how different categories make up
+parts of a whole. Each slice represents a proportion or percentage of
+total observations.</p>
+<p><strong>What It Is</strong></p>
+<ul>
+<li>A pie chart divides a circle into slices that represent each
+category’s share of the total.</li>
+<li>It’s best for showing <strong>simple composition summaries</strong>
+— not detailed numerical comparisons.</li>
+</ul>
+<p><strong>Type of Data</strong></p>
+<ul>
+<li>Nominal or categorical variables (e.g., <em>region</em>, <em>IGO
+participation level</em>, <em>income group</em>).</li>
+</ul>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To compare <strong>relative proportions</strong> among a few
+categories (usually fewer than six).<br />
+</li>
+<li>To provide a quick overview of how the data is distributed across
+groups.</li>
+</ul>
+<div
+id="example-with-ggplot2-igo-participation-in-sub-saharan-africa-2014"
+class="section level4" number="3.3.1.1">
+<h4><span class="header-section-number">3.3.1.1</span> Example with
+<code>ggplot2</code>: IGO Participation in Sub-Saharan Africa
+(2014)</h4>
+<p>Let’s visualize the proportion of IGO participation levels among
+Sub-Saharan African countries in 2014.</p>
+<p>This pie chart shows how many countries fall into each participation
+level — Low, Medium, or High — based on how many intergovernmental
+organizations they belonged to.</p>
+<p>We’ll use dataset <code>POLI_LIT_v1</code> dataset and aggregate the
+data into categories that work well for visualizing proportions.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Pie Chart- IGO Participation in Sub-Saharan Africa (2014)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># Create a subset for the region (e_regionpol_6C == 6) in 2014</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> POLI_LIT <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">filter</span>(e_regionpol_6C <span class="sc">==</span> <span class="dv">4</span>, year <span class="sc">==</span> <span class="dv">2014</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># Summarize by participation level</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>summary_latin <span class="ot">&lt;-</span> data<span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">count</span>(IGO_participation_level) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Make a pie chart of proportion by participation level</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">ggplot</span>(summary_latin, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> prop, <span class="at">fill =</span> IGO_participation_level)) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>   <span class="at">title =</span> <span class="st">&quot;IGO Participation Levels in Sub-Saharan African Countries, 2014&quot;</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;IGO Memberships(count), Low (≤50), Medium (51–70), High (≥71)&quot;</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: POLI_LIT_v1 (2025)&quot;</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Participation Level&quot;</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;cividis&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># ggplot() starts the plot and defines what data and variables to use.</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># aes() maps variables: y determines slice size; fill gives each category a color.</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># geom_col() builds proportional bars from the data values.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># coord_polar(theta = &quot;y&quot;) converts bars into a circular pie chart.</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># labs() adds the title, subtitle, and legend label.</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># scale_fill_viridis_d() uses a color-blind-friendly palette.</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># theme_minimal() keeps the chart clean and easy to read.</span></span></code></pre></div>
+</div>
+<div id="why-this-chart-works-better-than-the-previous-one"
+class="section level4" number="3.3.1.2">
+<h4><span class="header-section-number">3.3.1.2</span> Why This Chart
+Works Better than the Previous One</h4>
+<p>Compared to the earlier “bad example,” this pie chart communicates
+its message clearly:</p>
+<ul>
+<li><p><strong>The variable fits the chart type.</strong><br />
+We’re summarizing categories, not numeric totals — a great fit for pie
+charts.</p></li>
+<li><p><strong>Clear proportions &amp; Simplified
+categories.</strong><br />
+The focus is on how many countries fall into each participation group,
+not individual values. The use of three broad groups (Low, Medium, High)
+makes the chart easy to read and interpret.</p></li>
+<li><p><strong>Descriptive caption and title.</strong><br />
+Viewers know exactly what they’re looking at, what the levels mean, and
+what region/timeframe it covers.</p></li>
+<li><p><strong>Clear takeaway.</strong><br />
+More than 60% of Sub-Saharan African countries fall into the medium IGO
+participation level, making it the dominant category. The chart also
+clearly separates the other levels — this gives a quick, visual summary
+of how countries in the region are grouped by IGO
+participation.</p></li>
+</ul>
+</div>
+<div id="visualization-is-a-support-tool-not-the-conclusion"
+class="section level4" number="3.3.1.3">
+<h4><span class="header-section-number">3.3.1.3</span> Visualization is
+a support tool, not the conclusion</h4>
+<p>While this chart gives a helpful overview of IGO participation
+levels, <strong>it doesn’t tell the full story on its own</strong>. A
+pie chart like this shows proportions — but <strong>not</strong> which
+specific countries are in each category, what those IGOs are, or why
+participation levels differ.</p>
+<p>To better understand regional participation patterns, pair this chart
+with information such as:</p>
+<ul>
+<li>A list of Sub-Saharan African countries<br />
+</li>
+<li>Background on major IGOs active in the region</li>
+</ul>
+<p>Together, these elements help turn the chart into a meaningful,
+evidence-based explanation.</p>
+</div>
+</div>
+<div id="what-variables-work-well-for-pie-charts" class="section level3"
+number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> What Variables Work
+Well for Pie Charts?</h3>
+<p>In our dataset, other variables that fit a pie chart include:</p>
+<ul>
+<li><strong><code>e_regionpol_6C</code></strong> — to show what
+percentage of countries belong to each region.<br />
+</li>
+<li><strong><code>IGO_participation_level</code></strong> — to summarize
+low, medium, or high levels of IGO engagement.</li>
+<li><strong><code>country_name</code> grouped by region</strong> — to
+show how many countries fall into each regional group.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 💡 Pie charts are best for <em>simple,
+few-category comparisons</em>. If the plots need to include many
+categories (like 10+ countries), use a <strong>bar chart</strong>
+instead — it’s easier to read and interpret.</p>
+</blockquote>
+</div>
+<div id="histogram-visualizing-distributions" class="section level3"
+number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Histogram —
+Visualizing Distributions</h3>
+<p>A <strong>histogram</strong> shows how continuous values are
+distributed across intervals (called <em>bins</em>). It helps us see the
+overall <em>shape</em> of a variable — for example, whether most
+countries have high, low, or mid-range scores.</p>
+<p><strong>What It Is</strong></p>
+<ul>
+<li>A histogram groups numeric values into equal intervals (bins) and
+counts how many observations fall in each range.<br />
+</li>
+<li>The height of each bar shows how many cases fall in that
+interval.</li>
+</ul>
+<p><strong>Type of Data</strong></p>
+<ul>
+<li><strong>Continuous</strong> (interval or ratio) variables — e.g.,
+<em>democracy scores</em>, <em>GDP per capita</em>, <em>gender
+equality</em>.</li>
+</ul>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To understand how values <strong>cluster</strong> or
+<strong>spread</strong> across their range.<br />
+</li>
+<li>To detect <strong>skewness</strong>, <strong>outliers</strong>, or
+<strong>bimodal patterns</strong> (two peaks).</li>
+</ul>
+<div id="example-with-ggplot2-gender-equality-in-the-asia-pacific-2014"
+class="section level4" number="3.3.3.1">
+<h4><span class="header-section-number">3.3.3.1</span> Example with
+<code>ggplot2</code>: Gender Equality in the Asia-Pacific (2014)</h4>
+<p>Let’s look at how <strong>gender equality scores</strong>
+(<code>v2x_gender</code>) are distributed among countries in the
+<strong>Asia and Pacific</strong> region. This index measures how
+equally men and women enjoy civil liberties, access to power, and
+participation in society. Scores range from 0 to 1.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Subset data for the Asia-Pacific region</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> POLI_LIT <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">filter</span>(e_regionpol_6C <span class="sc">==</span> <span class="dv">6</span>, year <span class="sc">==</span> <span class="dv">2014</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Create the histogram</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> v2x_gender)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>   <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>)) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Distribution of Gender Equality Scores in Asia and Pacific (2014)&quot;</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;x = v2x_gender&quot;</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Gender Equality Score (0–1)&quot;</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Number of Countries&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># ggplot() starts the plot and defines what data/variables to use.</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># aes() maps x = v2x_gender, the gender equality score.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># geom_histogram() creates bins (intervals) showing how many countries fall in each range.</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># binwidth = 0.05 controls the size of each bin (smaller = more detailed).</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># scale_x_continuous() sets consistent tick marks for easier reading.</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># fill and color define bar color and outlines.</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># labs() adds a title and axis labels.</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># theme_minimal() simplifies the layout for readability.</span></span></code></pre></div>
+</div>
+<div id="how-to-read-this-chart" class="section level4"
+number="3.3.3.2">
+<h4><span class="header-section-number">3.3.3.2</span> How to Read This
+Chart</h4>
+<ul>
+<li><strong>x-axis</strong> → <code>v2x_gender</code> (gender equality
+score, 0 = low equality, 1 = high equality).<br />
+</li>
+<li><strong>y-axis</strong> → number of countries falling within each
+score range.<br />
+</li>
+<li><strong>Interpretation:</strong><br />
+Countries in the Asia-Pacific region cluster around a moderate level of
+gender equality — with the tallest bar around the 0.65 range,
+representing about 5 countries. Only a handful of countries scored above
+0.8, as shown by the short bars on the far right.</li>
+</ul>
+<p>This histogram gives a quick visual sense of how gender equality
+varies across the region — and shows that very high scores are rare.
+This chart helps us see <em>distribution patterns</em> in the
+region.</p>
+</div>
+<div id="what-other-variables-work-well-for-histograms"
+class="section level4" number="3.3.3.3">
+<h4><span class="header-section-number">3.3.3.3</span> What Other
+Variables Work Well for Histograms?</h4>
+<p>Other continuous variables in our dataset include:</p>
+<ul>
+<li><strong><code>v2x_polyarchy</code></strong> — democracy score, to
+see how democratic countries are.<br />
+</li>
+<li><strong><code>e_gdppc</code></strong> — GDP per capita, to see
+income distributions.<br />
+</li>
+<li><strong><code>v2smgovsmcenprc</code></strong> — government monopoly
+on force, to show variation in state control levels.</li>
+</ul>
+</div>
+</div>
+<div id="bar-chart-comparing-category-averages" class="section level3"
+number="3.3.4">
+<h3><span class="header-section-number">3.3.4</span> Bar Chart —
+Comparing Category Averages</h3>
+<p>A <strong>bar chart</strong> compares numerical summaries — usually
+averages — across <strong>categories</strong>.<br />
+It’s one of the most common ways to show political or social differences
+between groups such as regions or years.</p>
+<p><strong>What It Is</strong></p>
+<ul>
+<li>A bar chart displays the <strong>average value</strong> of a numeric
+variable for each group.<br />
+</li>
+<li>It’s ideal for comparing regions, political systems, or other
+categorical divisions.</li>
+</ul>
+<p><strong>Type of Data</strong></p>
+<ul>
+<li><strong>Categorical variable</strong> on the x-axis.<br />
+</li>
+<li><strong>Numeric variable</strong> on the y-axis (mean or
+total).</li>
+</ul>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To compare <strong>average values</strong> between categories (e.g.,
+democracy or gender equality by region).<br />
+</li>
+<li>To show which groups score higher or lower on a specific
+indicator.</li>
+</ul>
+<div id="example-with-ggplot2-average-gender-equality-by-region-2014"
+class="section level4" number="3.3.4.1">
+<h4><span class="header-section-number">3.3.4.1</span> Example with
+<code>ggplot2</code>: Average Gender Equality by Region (2014)</h4>
+<p>Let’s compare the average <em>Gender Equality Index (v2x_gender)</em>
+across world regions in 2014.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Create a dataset grouped by region (mean gender equality per region)</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> POLI_LIT <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2014</span>) <span class="sc">%&gt;%</span>                    </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">group_by</span>(e_regionpol_6C) <span class="sc">%&gt;%</span>     <span class="co"># group countries by region</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_gender =</span> <span class="fu">mean</span>(v2x_gender, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="co"># Add readable region names</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region_name =</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">&quot;E. Europe &amp; Central Asia&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">&quot;Latin America &amp; Caribbean&quot;</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">&quot;Middle East &amp; North Africa&quot;</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">&quot;Sub-Saharan Africa&quot;</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">&quot;W. Europe &amp; N. America&quot;</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>    e_regionpol_6C <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">&quot;Asia &amp; Pacific&quot;</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  ))</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># Create the bar chart</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(region_name, mean_gender), <span class="at">y =</span> mean_gender, <span class="at">fill =</span> region_name)) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Average Gender Equality by Region (2014)&quot;</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Higher scores mean greater equality (0–1 scale)&quot;</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Region&quot;</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Mean Gender Equality Score&quot;</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;Region&quot;</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Source: POLI_LIT_v1 (2025), V-Dem Codebook&quot;</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>  <span class="co"># horizontal bars for readability</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;cividis&quot;</span>, <span class="at">guide =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># aes() maps variables: x = region name (ordered by value), y = average gender score, fill = region color.</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># geom_bar(stat = &quot;identity&quot;) creates bars based on actual values (not counts).</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># color = &quot;white&quot; adds a clean outline to each bar.</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># labs() adds the title, subtitle, axis labels, legend title, and a data source caption.</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># coord_flip() rotates the bar chart to horizontal for better readability.</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># scale_fill_viridis_d() uses a color-blind-friendly palette.</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># guide = &quot;none&quot; hides the redundant legend since region names are already on the axis.</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># theme_minimal() applies a clean and simple visual style to the chart.</span></span></code></pre></div>
+</div>
+<div id="how-to-read-this-chart-1" class="section level4"
+number="3.3.4.2">
+<h4><span class="header-section-number">3.3.4.2</span> How to Read This
+Chart</h4>
+<ul>
+<li><strong>x-axis</strong> → <code>e_regionpol_6C</code> (region
+codes).<br />
+</li>
+<li><strong>y-axis</strong> → <code>mean_gender</code>: average Gender
+Equality Index in 2014</li>
+<li><strong>Interpretation:</strong><br />
+Regions like Western Europe &amp; North America show the highest average
+scores — indicating more equal access and representation across genders.
+This bar chart helps you quickly compare levels of gender equality
+across global regions in a single year.</li>
+</ul>
+</div>
+<div id="what-variables-work-well-for-bar-charts" class="section level4"
+number="3.3.4.3">
+<h4><span class="header-section-number">3.3.4.3</span> What Variables
+Work Well for Bar Charts?</h4>
+<p>Other useful combinations include:</p>
+<ul>
+<li><strong><code>e_regionpol_6C</code> +
+<code>v2x_polyarchy</code></strong> — average democracy levels by
+region.<br />
+</li>
+<li><strong><code>year</code> + <code>e_gdppc</code></strong> — shows
+how average GDP changes over time.</li>
+</ul>
+</div>
+<div id="histogram-vs.-bar-chart-whats-the-difference"
+class="section level4" number="3.3.4.4">
+<h4><span class="header-section-number">3.3.4.4</span> Histogram vs. Bar
+Chart — What’s the Difference?</h4>
+<p>Although they may look similar, <strong>histograms</strong> and
+<strong>bar charts</strong> display different types of data:</p>
+<ul>
+<li><p><strong>Histogram → continuous (numeric) data</strong> Groups
+numbers into <em>intervals (bins)</em> to show distributions.<br />
+Example: GDP per capita — how many countries fall within each income
+range.<br />
+Bars <em>touch</em> because data are continuous.</p></li>
+<li><p><strong>Bar Chart → categorical data</strong> Compares
+<em>averages or totals</em> across categories.<br />
+Example: average gender equality by region.<br />
+Bars are <em>separated by space</em> because categories are
+distinct.</p></li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 <strong>In short:</strong><br />
+A histogram shows the <em>shape of a distribution</em>,<br />
+while a bar chart compares <em>values across groups</em>.</p>
+</blockquote>
+</div>
+</div>
+<div id="line-plot-change-over-time" class="section level3"
+number="3.3.5">
+<h3><span class="header-section-number">3.3.5</span> Line Plot — Change
+Over Time</h3>
+<p>A <strong>line plot</strong> connects points across time to show
+<strong>how values change</strong>.<br />
+It helps us see long-term <strong>trends</strong>, such as growth,
+decline, or stability in political, economic, or social indicators.</p>
+<p><strong>What It Is</strong></p>
+<ul>
+<li>A line plot displays data points connected by lines.<br />
+</li>
+<li>Each point represents a year (x-axis) and the value of a variable
+(y-axis).</li>
+</ul>
+<p><strong>Type of Data</strong></p>
+<ul>
+<li>Time-series data — a numeric variable that changes across
+years.</li>
+</ul>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To show <strong>changes or trends</strong> over time.<br />
+</li>
+<li>Useful for tracking patterns such as increases, declines, or
+fluctuations.<br />
+</li>
+<li>Common for political, economic, and social indicators (e.g.,
+democracy, GDP, IGO participation).</li>
+</ul>
+</div>
+<div id="example-igo-membership-of-japan-over-time"
+class="section level3" number="3.3.6">
+<h3><span class="header-section-number">3.3.6</span> Example: IGO
+Membership of Japan Over Time</h3>
+<p>Let’s visualize how Japan’s <strong>number of IGO memberships
+(<code>IGO_count</code>)</strong> has changed over ten years.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Subset data for Japan</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> POLI_LIT <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">filter</span>(country_name <span class="sc">==</span> <span class="st">&quot;Japan&quot;</span>, year <span class="sc">&gt;=</span> <span class="dv">2004</span>, year <span class="sc">&lt;=</span> <span class="dv">2014</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># Create the line plot</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> IGO_count)) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;#3B82F6&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;#1E40AF&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Japan’s IGO Membership Over Time (2005–2014)&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;x = year, y = IGO_count&quot;</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Number of IGO Memberships&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># ggplot() starts the plot and defines which variables to use.</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># aes() maps x = year and y = IGO_count.</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># geom_line() draws a continuous line connecting yearly data points.</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># geom_point() adds circles at each year for visibility.</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># labs() adds the title, subtitle, and axis labels.</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># theme_minimal() keeps the design clean.</span></span></code></pre></div>
+</div>
+<div id="how-to-read-this-chart-2" class="section level3"
+number="3.3.7">
+<h3><span class="header-section-number">3.3.7</span> How to Read This
+Chart</h3>
+<ul>
+<li><strong>x-axis</strong> → years (2004–2014).<br />
+</li>
+<li><strong>y-axis</strong> → number of IGO memberships
+(<code>IGO_count</code>).<br />
+</li>
+<li><strong>Interpretation:</strong><br />
+Each point shows how many IGOs Japan belonged to that year.<br />
+If the line rises, Japan is joining more IGOs over time; if it falls,
+memberships are decreasing. The shape of the line helps identify
+<em>trends</em> — steady growth, fluctuations, or flat patterns.</li>
+</ul>
+</div>
+<div id="what-variables-work-well-for-line-plots" class="section level3"
+number="3.3.8">
+<h3><span class="header-section-number">3.3.8</span> What Variables Work
+Well for Line Plots?</h3>
+<p>Other good examples in our dataset include:</p>
+<ul>
+<li><strong><code>v2x_polyarchy</code></strong> — democracy index over
+time for a selected country.<br />
+</li>
+<li><strong><code>e_gdppc</code></strong> — GDP per capita change across
+years.<br />
+</li>
+<li><strong><code>v2x_gender</code></strong> — gender equality index by
+year, showing progress or stagnation.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt">💡 Line plots are best for variables
+that evolve over time — use them to tell a “story of change.”</p>
+</blockquote>
+</div>
+<div id="scatter-plot-exploring-relationships" class="section level3"
+number="3.3.9">
+<h3><span class="header-section-number">3.3.9</span> Scatter Plot —
+Exploring Relationships</h3>
+<p>A <strong>scatter plot</strong> shows how two numeric variables
+relate to each other.<br />
+Each dot represents one observation (for example, one country), placed
+according to two values: one on the x-axis and one on the y-axis.</p>
+<p><strong>What It Is</strong></p>
+<p>A scatter plot positions points on a grid — one variable on the
+x-axis, one on the y-axis — to show patterns, clusters, or relationships
+between them.</p>
+<p><strong>Type of Data</strong></p>
+<ul>
+<li><strong>Two continuous (numeric) variables</strong>, such as
+democracy, GDP, or equality measures.</li>
+</ul>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To examine whether two variables move together.<br />
+</li>
+<li>To identify <strong>correlations</strong> — positive, negative, or
+none.<br />
+</li>
+<li>To spot <strong>outliers</strong> or unusual cases that don’t follow
+the general trend.</li>
+</ul>
+</div>
+<div id="example-democracy-and-censorship-2014" class="section level3"
+number="3.3.10">
+<h3><span class="header-section-number">3.3.10</span> Example: Democracy
+and Censorship (2014)</h3>
+<p>Let’s explore the relationship between <strong>democracy
+(<code>v2x_polyarchy</code>)</strong> and <strong>Government social
+media censorship in practice (<code>v2smgovsmcenprc</code>)</strong> in
+2014. <code>v2smgovsmcenprc</code> measures the degree government censor
+political content (i.e., deleting or filtering specific posts for
+political reasons) on social media in practice.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Subset data for 2014</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> POLI_LIT <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2014</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># Create the scatter plot</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> v2x_polyarchy, <span class="at">y =</span> v2smgovsmcenprc)) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span>   <span class="do">## plots one point per country</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Relationship Between Democracy and social media censorship (2014)&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;x = v2x_polyarchy, y = v2smgovsmcenprc&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Democracy Score (0–1)&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Government social media censorship (+/- 4)&quot;</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="Unit_3_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># ggplot() starts the plot.</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># aes() maps x = democracy score, y = state monopoly score.</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># geom_point() plots dots for each country.</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># geom_smooth(method = &quot;lm&quot;) adds a linear trend line (best-fit line).</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># se = TRUE adds a shaded confidence band around the line.</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># labs() provides clear labels for interpretation.</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># theme_minimal() removes unnecessary gridlines for clarity.</span></span></code></pre></div>
+<div id="how-to-read-this-chart-3" class="section level4"
+number="3.3.10.1">
+<h4><span class="header-section-number">3.3.10.1</span> How to Read This
+Chart</h4>
+<ul>
+<li><strong>x-axis</strong> → <code>v2x_polyarchy</code> (democracy
+score).<br />
+</li>
+<li><strong>y-axis</strong> → <code>v2smgovsmcenprc</code> (Government
+social media censorship in practice).<br />
+</li>
+<li><strong>Interpretation:</strong><br />
+Each dot = one country in 2014.<br />
+The line shows the general relationship between democracy and censorship
+degree. If the line slopes <strong>upward</strong>, it suggests that
+more democratic countries tend to have less political censorship on
+social media (higher values on the censorship variable = less
+censorship).</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 The line in this plot comes from
+geom_smooth(method = “lm”), which fits a linear regression model to the
+data. This is a statistical “best‑fit” line that summarizes the overall
+trend between the two variables. It does not connect the dots — it
+estimates the pattern.</p>
+</blockquote>
+</div>
+<div id="what-variables-work-well-for-scatter-plots"
+class="section level4" number="3.3.10.2">
+<h4><span class="header-section-number">3.3.10.2</span> What Variables
+Work Well for Scatter Plots?</h4>
+<p>Other combinations from our dataset include:</p>
+<ul>
+<li><strong><code>v2x_polyarchy</code> +
+<code>v2x_gender</code></strong> — exploring whether more democratic
+countries have higher gender equality.<br />
+</li>
+<li><strong><code>e_gdppc</code> + <code>v2x_polyarchy</code></strong> —
+examining if richer countries tend to be more democratic.</li>
+</ul>
+<blockquote>
+<p><span style="font-size: 10pt"> 💡 Scatter plots help answer questions
+like “Do two things move together?” — not just how much they change.</p>
+</blockquote>
+<hr>
+</div>
+</div>
+</div>
+<div id="summary-choosing-the-right-plot-type" class="section level2"
+number="3.4">
+<h2><span class="header-section-number">3.4</span> Summary: Choosing the
+Right Plot Type</h2>
+<p>Now that we’ve explored different kinds of plots, let’s step back and
+summarize what we learned. Each plot type serves a specific purpose — it
+helps us see something different in our data.</p>
+<p><strong>Think of choosing a plot type like choosing the right tool
+for a job:</strong><br />
+you wouldn’t use a hammer to screw in a bolt, and you wouldn’t use a pie
+chart to show change over time.</p>
+<p>Use the table below as a guide to help you decide which type of chart
+to use in your own analysis.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="30%" />
+<col width="16%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Plot Type</strong></th>
+<th align="left"><strong>Kind of Variable(s)</strong></th>
+<th align="left"><strong>When to Use It</strong></th>
+<th align="left"><strong>Example (Practice Dataset)</strong></th>
+<th align="left"><strong>Example (University Life)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Pie Chart</strong></td>
+<td align="left">1 categorical variable</td>
+<td align="left">Use a pie chart when you want to show
+<strong>proportions</strong> — how parts make up a whole. Each slice
+represents one category’s share of the total.</td>
+<td align="left">Share of countries by region
+(<code>e_regionpol_6C</code>)</td>
+<td align="left">Share of students by class year (Freshman, Sophomore,
+etc.)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Histogram</strong></td>
+<td align="left">1 continuous variable</td>
+<td align="left">Use a histogram to see the
+<strong>distribution</strong> of values — how data are spread out
+(highs, lows, clusters, or outliers).</td>
+<td align="left">GDP per capita (<code>e_gdppc</code>) — shows how
+countries differ in income levels.</td>
+<td align="left">Distribution of students’ study hours per week.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Bar Chart</strong></td>
+<td align="left">1 categorical + 1 numeric variable</td>
+<td align="left">Use a bar chart to <strong>compare values or
+averages</strong> across categories. Each bar shows a group’s average
+score or total.</td>
+<td align="left">Average democracy index (<code>v2x_polyarchy</code>) by
+region.</td>
+<td align="left">Average GPA by major.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Line Plot</strong></td>
+<td align="left">1 time variable + 1 continuous variable</td>
+<td align="left">Use a line plot to show <strong>change over
+time</strong> — increases, decreases, or stable patterns across
+years.</td>
+<td align="left">India’s democracy score (<code>v2x_polyarchy</code>)
+from 2004–2014.</td>
+<td align="left">Your coffee spending over the semester.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Scatter Plot</strong></td>
+<td align="left">2 continuous variables</td>
+<td align="left">Use a scatter plot to explore <strong>relationships or
+correlations</strong> — whether two things move together, or not at
+all.</td>
+<td align="left">Democracy (<code>v2x_polyarchy</code>) vs. Gender
+equality (<code>v2x_gender</code>).</td>
+<td align="left">Study hours vs. grades.</td>
+</tr>
+</tbody>
+</table>
+<div id="recap-good-visualization" class="section level3"
+number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Recap: Good
+Visualization</h3>
+<ul>
+<li><p><strong>Different plots answer different
+questions.</strong><br />
+A bar chart answers “Which group is larger?”, while a line plot answers
+“How did this change over time?”</p></li>
+<li><p><strong>Categorical vs. Continuous:</strong><br />
+<em>Categorical</em> data (like region or gender) fits best in bar or
+pie charts.<br />
+<em>Continuous</em> data (like GDP or democracy scores) fits better in
+histograms or scatter plots.</p></li>
+<li><p><strong>Change vs. Comparison:</strong><br />
+If you’re looking at change across years, use a line plot.<br />
+If you’re comparing groups at one point in time, use a bar
+chart.</p></li>
+<li><p><strong>Show patterns, not every number.</strong><br />
+Visualization is about making the story easier to see — the goal is
+clarity, not decoration.</p></li>
+<li><p><strong>Always include context.</strong><br />
+Add clear titles, axis labels, and a source note so your reader knows
+what the data represent.</p></li>
+<li><p><strong>Simplicity is power.</strong> You don’t need fancy
+effects to make a good plot — the clearest plots are often the best
+ones.</p></li>
+</ul>
+</div>
+</div>
+<div id="watch-how-to-modify-sample-code-to-make-plots"
+class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Watch: How to Modify
+Sample Code to Make Plots</h2>
+<p>This video walks you through how to take sample code and adapt it to
+create your own plots. Follow along and try making changes as you
+go.</p>
+<iframe width="800" height="450"
+  src="https://www.youtube.com/embed/wZP_5Ld84d4"
+  frameborder="0" allowfullscreen>
+</iframe>
+</div>
+<div id="watch-re-running-the-given-code-a-worked-example"
+class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Watch: Re-Running the
+Given Code — A Worked Example</h2>
+<p>This video shows a worked example of re-running the provided code so
+you can see exactly what each step produces. Use it as a reference when
+completing your own practice.</p>
+<iframe width="800" height="450"
+  src="https://www.youtube.com/embed/_zEqRKO2AfQ"
+  frameborder="0" allowfullscreen>
+</iframe>
+<div id="key-takeaway" class="section level3" number="3.6.1">
+<h3><span class="header-section-number">3.6.1</span> Key Takeaway</h3>
+<p>The plot you choose should align with both:</p>
+<ul>
+<li>The <strong>type of data</strong> you’re working with (categorical,
+numeric, or time‑series), and<br />
+</li>
+<li>The <strong>question</strong> you’re trying to answer.</li>
+</ul>
+<p>When your visualization matches your purpose, your chart will
+communicate its story clearly, effectively, and with confidence.</p>
+<hr>
+</div>
+</div>
+<div id="knowledge-check-1" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Knowledge Check</h2>
+<div id="practice-quiz-1" class="section level3" number="3.7.1">
+<h3><span class="header-section-number">3.7.1</span> Practice Quiz</h3>
+<!-- KNOWLEDGE CHECK BLOCK -->
+<style>
+.quiz-question {
+  margin-bottom: 1rem;
+  padding: .75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+.quiz-option {
+  display: block;
+  margin: .25rem 0;
+  padding: .3rem .5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+.quiz-option:hover { background-color: #9A2A2A; color: white; }
+.correct { background-color: #d4edda; border-color: #28a745; }
+.incorrect { background-color: #f8d7da; border-color: #dc3545; }
+.feedback { display: none; margin-top: .5rem; font-weight: bold; }
+</style>
+
+<!-- UNIT 2.5 -->
+<div class="quiz-question" data-answer="a">
+  <p><strong>1. If your plot type doesn’t match your question or data type, it might mislead the audience.</strong></p>
+  <div class="quiz-option" data-choice="a">a) True</div>
+  <div class="quiz-option" data-choice="b">b) False</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="b">
+  <p><strong>2. What does a scatter plot best help you understand?</strong></p>
+  <div class="quiz-option" data-choice="a">a) How a variable is distributed</div>
+  <div class="quiz-option" data-choice="b">b) How two variables are related</div>
+  <div class="quiz-option" data-choice="c">c) How a variable changes over time</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="b">
+  <p><strong>3. What kind of data works best in a pie chart?</strong></p>
+  <div class="quiz-option" data-choice="a">a) Many categories with overlapping values</div>
+  <div class="quiz-option" data-choice="b">b) A small number of categories representing parts of a whole</div>
+  <div class="quiz-option" data-choice="c">c) Variables that change over time</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="b">
+  <p><strong>4. What question does a histogram help answer?</strong></p>
+  <div class="quiz-option" data-choice="a">a) How does one variable change across time?</div>
+  <div class="quiz-option" data-choice="b">b) How are values distributed — where do they cluster or spread?</div>
+  <div class="quiz-option" data-choice="c">c) How do two variables relate to each other?</div>
+  <div class="feedback"></div>
+</div>
+
+<div class="quiz-question" data-answer="c">
+  <p><strong>5. Which plot is best to show how democracy scores have changed in a country over the past 20 years?</strong></p>
+  <div class="quiz-option" data-choice="a">a) Pie chart</div>
+  <div class="quiz-option" data-choice="b">b) Bar chart</div>
+  <div class="quiz-option" data-choice="c">c) Line plot</div>
+  <div class="feedback"></div>
+</div>
+
+
+    
+<script>
+    (function(){
+      document.querySelectorAll('.quiz-question').forEach(function(question){
+        const correct = question.getAttribute('data-answer');
+        const feedback = question.querySelector('.feedback');
+        question.querySelectorAll('.quiz-option').forEach(function(opt){
+          opt.addEventListener('click', function(){
+            // Reset previous choices
+            question.querySelectorAll('.quiz-option').forEach(o=>{
+              o.classList.remove('correct','incorrect');
+            });
+            // Check if correct
+            if (opt.getAttribute('data-choice') === correct) {
+              opt.classList.add('correct');
+              feedback.textContent = "✅ Correct!";
+            } else {
+              opt.classList.add('incorrect');
+              feedback.textContent = "❌ Try again.";
+            }
+            feedback.style.display = 'block';
+          });
+        });
+      });
+    })();
+</script>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div id="final-pratice" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Final Pratice</h1>
+<p>This final section gives you a chance to apply what you’ve learned
+about making visualizations in R.<br />
+You will design your own plot using the <strong><code>POLI_LIT_v1</code>
+dataset</strong>, describe what it shows, and reflect on the
+process.</p>
+<p>This is a <strong>practice-based assignment</strong>, not a graded
+test. The goal is to demonstrate understanding, curiosity, and
+effort—not perfection.</p>
+<div id="what-you-need-to-submit" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> What You Need To
+Submit</h2>
+<p>For this assignment, you will submit:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>One plot</strong> that you design and create using the
+<code>POLI_LIT_v1</code> dataset.<br />
+</p></li>
+<li><p><strong>A short text description</strong> (4–6 sentences) that
+explains:</p>
+<ul>
+<li>What kind of plot it is (e.g., bar chart, line plot, scatterplot,
+histogram, etc.).<br />
+</li>
+<li>What the plot shows — what question or idea it helps
+visualize.<br />
+</li>
+<li>Why this type of plot is appropriate for your data.</li>
+</ul></li>
+</ol>
+<p>You can use any variable from the dataset that interests you. Check
+the codebook for variables you can use.<br />
+</p>
+<div id="completion-based-grading" class="section level3"
+number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Completion-Based
+Grading</h3>
+<p>This assignment is <strong>completion-based</strong>, you do
+<em>not</em> need a perfect or fully working plot to receive full
+credit.</p>
+<p>Even if your fail to produce a plot. You will receive <strong>full
+credit</strong> if you:</p>
+<ul>
+<li>Show evidence of effort (for example, attempted code or partial
+output).<br />
+</li>
+<li>Provide a short explanation of what you tried to do and where you
+had trouble.</li>
+</ul>
+<p>If your plot does not render correctly:</p>
+<ul>
+<li>Submit a <em>screenshot</em> of your best attempt from the Plots
+pane, <strong>or</strong><br />
+</li>
+<li>Paste your <em>code attempt</em> and a note explaining what you
+wanted it to show.</li>
+</ul>
+<p>You are encouraged to experiment and make mistakes—this is how real
+learning happens.</p>
+</div>
+<div id="tips-for-reading-and-making-visualizations"
+class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Tips for Reading
+and Making Visualizations</h3>
+<p>Before you start, take a few minutes to plan your
+visualization.<br />
+Think about what story or pattern you want to show, and what kind of
+chart best fits your data.</p>
+<p>It can help to start by asking:</p>
+<ul>
+<li>What question do I want my chart to answer?<br />
+</li>
+<li>What type of plot show that pattern most clearly?</li>
+</ul>
+<p>Below are some guidelines that will help you both read and create
+visualizations effectively.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="49%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>When Reading a Visualization</strong></th>
+<th align="left"><strong>When Making a Visualization</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>1. Identify what’s being compared.</strong>
+Look at the axes, labels, or colors — what variables are shown?</td>
+<td align="left"><strong>Choose clear variables.</strong> Make sure your
+x- and y-axes (or categories) represent what you want to show.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>2. Look for overall patterns.</strong> Do
+values increase, decrease, or form clusters? Are there any
+outliers?</td>
+<td align="left"><strong>Highlight key patterns.</strong> Use color,
+grouping, or labels to guide the viewer’s eye to the main trend.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>3. Notice variation.</strong> Are data tightly
+clustered or widely spread? What does that say about consistency or
+diversity?</td>
+<td align="left"><strong>Show variation clearly.</strong> Use a proper
+scale and avoid distorting differences with uneven axes.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>4. Check context.</strong> What time period,
+region, or dataset is being shown?</td>
+<td align="left"><strong>Label clearly.</strong> Always include axis
+labels, units, and a clear title that explains what the plot shows.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>5. Ask critical questions.</strong> What does
+the chart say clearly, and what might be missing?</td>
+<td align="left"><strong>Be honest and transparent.</strong> Avoid
+cherry-picking data, hiding missing values, or exaggerating small
+effects.</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><strong>Make it accessible.</strong> Choose readable
+colors, avoid clutter, and include a short note about your data
+source.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+</div>
+<div id="steps-for-the-assignment" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Steps for the
+Assignment</h2>
+<p>Follow these steps to complete your final practice assignment for
+Unit 2.<br />
+If anything feels unclear, you can return to earlier sections of the
+module, check the lecture slides, or use a Generative AI tool (like
+ChatGPT) to help you understand concepts or debug code.</p>
+<p>Remember: AI can help you <em>think</em>, but it should not write the
+full assignment for you.</p>
+<p>The dataset and codebook are available in <strong>Blackboard → Unit
+2</strong>:</p>
+<ul>
+<li><code>POLI_LIT_v1.csv</code></li>
+<li><code>POLI_LIT</code> codebook (explains each variable)</li>
+</ul>
+<div id="consider-what-to-make" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Consider what to
+make</h3>
+<p>Before you start coding, think about what information you want to
+show and what type of plot would communicate it best.</p>
+<p>You can begin from either direction:</p>
+<ul>
+<li><p><em>Start With a Question &gt; Choose a Plot:</em></p>
+<ul>
+<li>“How does democracy vary across world regions in 2010?”
+<ul>
+<li>Bar chart comparing average democracy scores
+(<code>v2x_polyarchy</code>) by region
+(<code>e_regionpol_6C</code>)</li>
+</ul></li>
+<li>“What is the relationship between democracy and gender equality?”
+<ul>
+<li>Scatterplot of democracy (<code>v2x_polyarchy</code>) vs. gender
+equality (<code>v2x_gender</code>)</li>
+</ul></li>
+</ul></li>
+<li><p><em>Start With a Plot Type &gt; Choose Variables:</em></p>
+<ul>
+<li>“I want to practice a line plot.”
+<ul>
+<li>Pick one country and visualize how a variable (e.g.,
+<code>v2x_polyarchy</code>) changes from 2005–2014.</li>
+</ul></li>
+<li>“I want to practice a scatterplot.”
+<ul>
+<li>Try combining any two continuous variables (e.g.,
+<code>v2x_gender</code> and <code>e_gdppc</code>).</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="think-about-levels-and-coverage" class="section level4"
+number="4.2.1.1">
+<h4><span class="header-section-number">4.2.1.1</span> Think About
+Levels and Coverage</h4>
+<p>Before choosing variables, decide:</p>
+<ul>
+<li><p>Are you focusing on a single country?</p></li>
+<li><p>Are you comparing multiple countries?</p></li>
+<li><p>Are you comparing larger categories (regions)?</p></li>
+<li><p>Are you using one year or multiple years?</p></li>
+</ul>
+</div>
+<div id="variables-you-might-use" class="section level4"
+number="4.2.1.2">
+<h4><span class="header-section-number">4.2.1.2</span> Variables You
+Might Use</h4>
+<p>Here is a list of <strong>plain-language descriptions</strong> from
+the <code>POLI_LIT</code> dataset that you can use in your plot (In the
+codebook, You can find the detail descriptions for each data):</p>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Variable</strong></th>
+<th><strong>Description (Plain Language)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Electoral Democracy Index
+(<code>v2x_polyarchy</code>)</strong></td>
+<td>A score from 0 to 1 measuring how democratic a country is.</td>
+</tr>
+<tr class="even">
+<td><strong>Gender Equality Index
+(<code>v2x_gender</code>)</strong></td>
+<td>Measures political and social gender equality (0 = low, 1 =
+high).</td>
+</tr>
+<tr class="odd">
+<td><strong>GDP per capita (<code>e_gdppc</code>)</strong></td>
+<td>Economic development measured as income per person.</td>
+</tr>
+<tr class="even">
+<td><strong>Number of Intergovernmental Organizations
+(<code>IGO_count</code>)</strong></td>
+<td>Counts how many IGOs each country belongs to.</td>
+</tr>
+<tr class="odd">
+<td><strong>IGO Participation Level
+(<code>IGO_participation_level</code>)</strong></td>
+<td>Categorizes IGO membership into Low / Medium / High levels.</td>
+</tr>
+<tr class="even">
+<td><strong>Region Categories
+(<code>e_regionpol_6C</code>)</strong></td>
+<td>World regions (coded 1–6). Useful for grouping or comparing
+countries.</td>
+</tr>
+<tr class="odd">
+<td><strong>Country Name (<code>country_name</code>)</strong></td>
+<td>The country in each observation. Useful for filtering or selecting
+specific cases.</td>
+</tr>
+<tr class="even">
+<td><strong>Year (<code>year</code>)</strong></td>
+<td>The year of the observation; used for time-series or trend
+plots.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="explore-the-dataset" class="section level4" number="4.2.1.3">
+<h4><span class="header-section-number">4.2.1.3</span> Explore the
+Dataset</h4>
+<p>After loading the dataset in Posit Cloud, you can take a look at the
+variables to help you choose something interesting.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>    <span class="fu">head</span>(your_object_name)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="fu">summary</span>(your_object_name<span class="sc">$</span>v2x_polyarchy)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="fu">table</span>(your_object_name<span class="sc">$</span>e_regionpol_6C)</span></code></pre></div>
+<p>These simple functions show you:</p>
+<ul>
+<li>What variables look like,</li>
+<li>How they are distributed, and</li>
+<li>Which ones might be meaningful to visualize.</li>
+</ul>
+<p>Exploration is often the best way to find a question worth
+plotting.</p>
+<hr>
+</div>
+</div>
+<div id="setting-up-your-environment" class="section level3"
+number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Setting Up Your
+Environment</h3>
+<p>Before you begin, make sure you have a working RStudio environment
+(Posit Cloud or the desktop version of RStudio).<br />
+Start a <strong>new R script</strong> for this assignment. Name your
+script with a clear title (such as <code>unit2_final_practice.R</code>)
+and use <code>##</code> comments to annotate your code are good habits
+that help keep your work organized.</p>
+</div>
+<div id="install-and-load-your-packages" class="section level3"
+number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Install and Load
+Your Packages</h3>
+<p>You will need the following packages:</p>
+<ul>
+<li><strong>tidyverse</strong> (includes ggplot2, dplyr, readr,
+etc.)<br />
+</li>
+<li><strong>ggplot2</strong> (if not loaded through tidyverse)</li>
+</ul>
+<p>These packages will allow you to import data, clean it, and make
+graphs.</p>
+<p>Functions you’ll use:</p>
+<ul>
+<li><code>install.packages("tidyverse")</code><br />
+</li>
+<li><code>library(tidyverse)</code><br />
+</li>
+<li><code>library(ggplot2)</code></li>
+</ul>
+<p>If you already installed tidyverse earlier in the course, you only
+need to load it again with <code>library()</code>.</p>
+</div>
+<div id="load-the-dataset" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Load the
+Dataset</h3>
+<p>Follow the instructions from earlier in Unit 2:</p>
+<ul>
+<li><strong>In Posit Cloud:</strong> upload the CSV file
+(<code>POLI_LIT_v1.csv</code>) to your project workspace and load it
+with <code>read.csv()</code>.<br />
+</li>
+<li><strong>On your computer:</strong> save the dataset and your script
+in the same folder, then set your working directory or use the full file
+path.</li>
+</ul>
+<p>Example starter code:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="do">## Load necessary packages</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="do">## Load the dataset</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>POLI_LIT_v1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;POLI_LIT_v1.csv&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="do">## Take a quick look at the dataset</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">View</span>(POLI_LIT_v1)       <span class="do">## Opens a spreadsheet view (Posit Cloud/RStudio)</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">names</span>(POLI_LIT_v1)      <span class="do">## Shows variable names</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">str</span>(POLI_LIT_v1)        <span class="do">## Shows structure and data types</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="fu">summary</span>(POLI_LIT_v1)    <span class="do">## Summary statistics for each variable</span></span></code></pre></div>
+<p>Functions you may find useful:</p>
+<ul>
+<li><code>read.csv()</code> to load the file<br />
+</li>
+<li><code>View()</code> to inspect the data<br />
+</li>
+<li><code>names()</code> to see variable names<br />
+</li>
+<li><code>str()</code> to check variable types<br />
+</li>
+<li><code>summary()</code> to view basic statistics</li>
+</ul>
+<p>These help you understand what is in the dataset before making your
+plot.</p>
+</div>
+<div id="making-the-plot" class="section level3" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Making the
+Plot</h3>
+<blockquote>
+<p><span style="font-size: 10pt"> 🔍 You can revisit Section 2.5 and use
+the example codes there — <strong>modifying the code is one of the best
+ways to learn</strong>.</p>
+</blockquote>
+<p>First, decide which <strong>year</strong>, <strong>country</strong>,
+or <strong>region</strong> you want to use, and subset the dataset
+accordingly.</p>
+<p>Example subsetting code:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## Keep only the year 2014</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>df_2014 <span class="ot">&lt;-</span> POLI_LIT_v1 <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2014</span>)</span></code></pre></div>
+<p>Helpful functions:</p>
+<ul>
+<li><code>%&gt;%</code> for chaining commands<br />
+</li>
+<li><code>filter()</code> to select rows<br />
+</li>
+<li><code>select()</code> to choose columns</li>
+</ul>
+<p>Once you have the data you need, use <strong>ggplot2</strong> to make
+the plot.</p>
+<ul>
+<li>Start with a template from earlier in the module<br />
+</li>
+<li>Adjust:
+<ul>
+<li>the <strong>dataset</strong> (your subset)</li>
+<li><strong>x</strong> and <strong>y</strong> variables</li>
+<li><strong>geom</strong> (bar, line, scatter, histogram, etc.)</li>
+<li><strong>labels</strong>, <strong>titles</strong>, and
+<strong>themes</strong></li>
+</ul></li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(df_2014, <span class="fu">aes</span>(<span class="at">x =</span> e_regionpol_6C, <span class="at">y =</span> v2x_polyarchy)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Average Democracy Score by Region (2014)&quot;</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Region&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Democracy Score (v2x_polyarchy)&quot;</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p>Common functions you may use:</p>
+<ul>
+<li><code>ggplot()</code><br />
+</li>
+<li><code>geom_bar()</code>, <code>geom_line()</code>,
+<code>geom_point()</code>, <code>geom_histogram()</code><br />
+</li>
+<li><code>labs()</code> for titles and axis labels<br />
+</li>
+<li><code>theme_minimal()</code>, <code>theme_bw()</code> for
+styling</li>
+</ul>
+<div id="if-you-run-into-errors" class="section level4"
+number="4.2.5.1">
+<h4><span class="header-section-number">4.2.5.1</span> If You Run Into
+Errors</h4>
+<p>If your code fails, do not worry. Errors are a normal part of
+coding.</p>
+<p>Follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Read the error message</strong> in the Console.<br />
+</li>
+<li>Check for:
+<ul>
+<li>typos in variable names<br />
+</li>
+<li>missing commas, parentheses, or quotes<br />
+</li>
+<li>forgetting to load <code>tidyverse</code> or
+<code>ggplot2</code><br />
+</li>
+</ul></li>
+<li>Try searching the exact error message online.<br />
+</li>
+<li>You may also ask a Generative AI tool:
+<ul>
+<li>“I got this error in R:
+<code>object 'v2x_polarchy' not found</code>. What does it mean and how
+do I fix it?”<br />
+</li>
+<li>“Explain what this ggplot code is doing, line by line.”</li>
+</ul></li>
+</ol>
+<p><strong>Reminder:</strong><br />
+Do <em>not</em> ask AI to write the entire plot code for you.<br />
+Use it to explain, debug, or clarify—not to replace your own
+learning.</p>
+</div>
+</div>
+<div id="saving-your-plot" class="section level3" number="4.2.6">
+<h3><span class="header-section-number">4.2.6</span> Saving Your
+Plot</h3>
+<p>Before submitting, make sure you save your plot as an image file. Use
+<code>ggsave()</code> <em>after</em> the plot is created. You may save
+your file as <strong>PDF</strong>, <strong>JPEG</strong>, or
+<strong>PNG</strong>.</p>
+<div id="file-naming-format" class="section level4" number="4.2.6.1">
+<h4><span class="header-section-number">4.2.6.1</span> File Naming
+Format</h4>
+<p>Use the following naming convention:</p>
+<ul>
+<li><strong>Final practice plot:</strong>
+<code>final_plot_lastname.pdf</code> or
+<code>final_plot_lastname.jpeg</code></li>
+<li>Example: <code>final_plot_chen.jpeg</code></li>
+</ul>
+<p>Helpful function:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;final_plot_lastname.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p>See Unit 2.3 for how to download the saved file from Posit Cloud.</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="what-to-submit-in-blackboard" class="section level2"
+number="4.3">
+<h2><span class="header-section-number">4.3</span> What to Submit in
+Blackboard</h2>
+<p>In addition to uploading your plot file (<strong>PDF</strong>,
+<strong>JPEG</strong> or <strong>PNG</strong>), write a short
+description in the Blackboard text box:</p>
+<p>Include:</p>
+<ol style="list-style-type: decimal">
+<li><strong>The type of plot</strong><br />
+(“This is a bar chart…” or “This is a scatterplot…”)</li>
+<li><strong>What the plot shows</strong><br />
+Describe the insight or information.</li>
+</ol>
+<p>Example description:</p>
+<blockquote>
+<p><span style="font-size: 10pt"> “This is a line plot of IGO membership
+counts for the United States, Canada, and Mexico from 2010 to 2014. The
+x-axis shows the year, and the y-axis shows the number of IGOs each
+country belongs to. The plot shows that the United States consistently
+has the highest IGO participation, while Mexico’s level remains lower
+but stable across the years.”</p>
+</blockquote>
+<div id="if-saving-fails" class="section level3" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> If Saving
+Fails</h3>
+<ul>
+<li>Take a <strong>screenshot</strong> of the final plot from the Plots
+Pane and upload it.<br />
+</li>
+<li>If your code still doesn’t run, paste your <strong>best
+attempt</strong> and briefly explain what you intended to do.</li>
+</ul>
+<hr>
+</div>
+</div>
+</div>
+<div id="unit-3-summary" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Unit 3 Summary</h1>
+<p>In this unit, you extended your data analysis skills in three
+important directions:</p>
+<p><strong>Understanding Generative AI</strong><br />
+You learned how AI, Machine Learning, Deep Learning, Generative AI, and
+Large Language Models (LLMs) relate to one another and what makes them
+powerful — but also limited. Key takeaways include: LLMs predict
+language patterns rather than truly understanding meaning; they can
+“hallucinate” confident but incorrect answers; and using AI to shortcut
+learning (so-called “vibe coding”) undermines the foundational skills
+you need to work effectively with data.</p>
+<p><strong>Using GenAI as a Learning Partner</strong><br />
+You explored concrete strategies for using AI tools responsibly in your
+coding practice — asking it to explain code line-by-line, debug specific
+error messages, or clarify what a function does — while remaining the
+critical thinker who verifies, interprets, and ultimately owns the
+work.</p>
+<p><strong>Storytelling with Visualizations</strong><br />
+You learned that effective charts are designed around a clear message. A
+good visualization matches the data type to the right plot, uses clean
+labels and titles, and can be understood in under a minute. You also
+studied examples of <em>poor</em> visualizations to understand what goes
+wrong and why.</p>
+<p><strong>Types of Plots in <code>ggplot2</code></strong><br />
+You surveyed the most common chart types — pie charts, bar charts,
+scatter plots, line plots, and histograms — with worked examples using
+the <code>POLI_LIT</code> dataset. Each plot type is suited to different
+kinds of data and research questions, and knowing which to use is a core
+analytical skill.</p>
+<hr />
+<p><strong>To receive full credit for Unit 3</strong> (worth <strong>5%
+of the course grade</strong>):</p>
+<ol style="list-style-type: decimal">
+<li>Submit the <strong>Final Practice</strong> assignment — one original
+plot using the <code>POLI_LIT</code> dataset, plus a short written
+description.<br />
+</li>
+<li>Complete the <strong>Unit 3 Feedback Survey</strong> on
+Blackboard.</li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
